@@ -12,7 +12,7 @@ export class AppComponent {
   userName:any;
   users:any;
   countries:any;
-  cities:any;
+  cities:any="empty";
   city:any = {};
   countryName:any;
   cityName:any;
@@ -26,12 +26,16 @@ export class AppComponent {
       this.database=data;
     })
   }
-  getCity(){
+  async getCity(){
     this.city.country = this.countryName;
+    
     this.apiService.getCities(this.city)
     .subscribe((data)=>{
       this.cities = data.data;
+      console.log('data->'+this.cities);
     });
+    
+    return this.cities;
   }
 
   submit(){
@@ -42,7 +46,7 @@ export class AppComponent {
         country:any;
         city:any;
         gender:any;
-      }) => (data.firstName === this.userName && data.country === this.countryName.toLowerCase() && data.city === this.cityName.toLowerCase() && data.gender === this.genderValue));
+      }) => (data.firstName === this.userName || data.gender === this.genderValue));
     console.log(this.users);
   }
 }
